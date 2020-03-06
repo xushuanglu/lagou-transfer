@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans  xmlns="http://www.springframework.org/schema/beans"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+">
+<!--跟标签beans，里面配置一个又一个的bean子标签，每一个bean子标签都代表一个类的配置-->
+
+    <!--id标识对象，class是类的全限定类名-->
+    <!--<bean id="accountDao" class="com.lagou.edu.dao.impl.JdbcAccountDaoImpl">
+        <property name="ConnectionUtils" ref="connectionUtils"/>
+    </bean>-->
+   <!-- <bean id="transferService" class="com.lagou.edu.service.impl.TransferServiceImpl">
+        &lt;!&ndash;set+ name 之后锁定到传值的set方法了，通过反射技术可以调用该方法传入对应的值&ndash;&gt;
+        <property name="AccountDao" ref="accountDao"></property>
+    </bean>-->
+
+
+    <!--配置新增的三个Bean-->
+    <!--<bean id="connectionUtils" class="com.lagou.edu.utils.ConnectionUtils"></bean>-->
+
+    <!--事务管理器-->
+   <!-- <bean id="transactionManager" class="com.lagou.edu.utils.TransactionManager">
+        <property name="ConnectionUtils" ref="connectionUtils"/>
+    </bean>-->
+
+    <!--代理对象工厂-->
+    <!--<bean id="proxyFactory" class="com.lagou.edu.factory.ProxyFactory">
+        <property name="TransactionManager" ref="transactionManager"/>
+    </bean>-->
+
+    <!--开启注解扫描，base-package指定扫描的包路径-->
+    <context:component-scan base-package="com.lagou.edu.*"/>
+
+</beans>
