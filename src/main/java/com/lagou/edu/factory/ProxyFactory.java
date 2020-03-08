@@ -1,11 +1,12 @@
 package com.lagou.edu.factory;
 
+import com.lagou.edu.annotation.ExtAutowired;
+import com.lagou.edu.annotation.ExtComponent;
+import com.lagou.edu.pojo.Account;
 import com.lagou.edu.utils.TransactionManager;
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
 import net.sf.cglib.proxy.MethodProxy;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
@@ -17,16 +18,20 @@ import java.lang.reflect.Proxy;
  *
  * 代理对象工厂：生成代理对象的
  */
-@Component("proxyFactory")
+@ExtComponent
 public class ProxyFactory {
 
 
-    @Autowired
+    @ExtAutowired
     private TransactionManager transactionManager;
 
     public void setTransactionManager(TransactionManager transactionManager) {
         this.transactionManager = transactionManager;
     }
+
+
+
+
 
     /**
      * Jdk动态代理
@@ -67,6 +72,7 @@ public class ProxyFactory {
 
     }
 
+
     /**
      * 使用cglib动态代理生成代理对象
      * @param obj 委托对象
@@ -84,6 +90,7 @@ public class ProxyFactory {
                     result = method.invoke(obj,objects);
 
                     // 提交事务
+
                     transactionManager.commit();
                 }catch (Exception e) {
                     e.printStackTrace();
@@ -98,5 +105,4 @@ public class ProxyFactory {
             }
         });
     }
-
 }

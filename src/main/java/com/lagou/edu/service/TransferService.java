@@ -5,7 +5,5 @@ package com.lagou.edu.service;
  */
 public interface TransferService {
 
-    //转账接口
     void transfer(String fromCardNo,String toCardNo,int money) throws Exception;
-
 }

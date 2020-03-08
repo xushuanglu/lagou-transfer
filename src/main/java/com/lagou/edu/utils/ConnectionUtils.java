@@ -1,6 +1,7 @@
 package com.lagou.edu.utils;
 
-import org.springframework.stereotype.Component;
+import com.lagou.edu.annotation.ExtAutowired;
+import com.lagou.edu.annotation.ExtComponent;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -8,21 +9,14 @@ import java.sql.SQLException;
 /**
  * @author 应癫
  */
-@Component
+@ExtComponent
 public class ConnectionUtils {
 
-    /*private ConnectionUtils() {
-
-    }
-
-    private static ConnectionUtils connectionUtils = new ConnectionUtils();
-
-    public static ConnectionUtils getInstance() {
-        return connectionUtils;
-    }*/
-
-
     private ThreadLocal<Connection> threadLocal = new ThreadLocal<>(); // 存储当前线程的连接
+
+    @ExtAutowired
+    private TransactionManager transactionManager;
+
 
     /**
      * 从当前线程获取连接

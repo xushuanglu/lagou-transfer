@@ -1,19 +1,17 @@
 package com.lagou.edu.servlet;
 
-import com.lagou.edu.factory.ProxyFactory;
-import com.lagou.edu.pojo.Result;
-import com.lagou.edu.service.TransferService;
-import com.lagou.edu.utils.JsonUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.WebApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import com.lagou.edu.factory.BeanFactory;
+import com.lagou.edu.pojo.Result;
+import com.lagou.edu.service.TransferService;
+import com.lagou.edu.utils.JsonUtils;
 
 /**
  * @author 应癫
@@ -21,19 +19,13 @@ import java.io.IOException;
 @WebServlet(name="transferServlet",urlPatterns = "/transferServlet")
 public class TransferServlet extends HttpServlet {
 
-    @Autowired
-    private TransferService transferService = null ;
+	private static final long serialVersionUID = -9038070033640230615L;
+	
+	private TransferService transferService = (TransferService) BeanFactory.getBean("transferService") ;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         doPost(req,resp);
-    }
-
-    @Override
-    public void init() throws ServletException {
-        WebApplicationContext webApplicationContext = WebApplicationContextUtils.getWebApplicationContext(this.getServletContext());
-        ProxyFactory proxyFactory = (ProxyFactory)webApplicationContext.getBean("proxyFactory");
-        transferService = (TransferService) proxyFactory.getJdkProxy(webApplicationContext.getBean("transferService")) ;
     }
 
     @Override
@@ -64,5 +56,4 @@ public class TransferServlet extends HttpServlet {
         resp.setContentType("application/json;charset=utf-8");
         resp.getWriter().print(JsonUtils.object2Json(result));
     }
-
 }

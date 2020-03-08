@@ -7,10 +7,8 @@ import com.lagou.edu.pojo.Account;
  */
 public interface AccountDao {
 
-    //查询金额
     Account queryAccountByCardNo(String cardNo) throws Exception;
 
-    //修改金额
     int updateAccountByCardNo(Account account) throws Exception;
-
+    
 }

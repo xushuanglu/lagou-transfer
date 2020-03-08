@@ -1,7 +1,7 @@
 package com.lagou.edu.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import com.lagou.edu.annotation.ExtAutowired;
+import com.lagou.edu.annotation.ExtComponent;
 
 import java.sql.SQLException;
 
@@ -10,24 +10,14 @@ import java.sql.SQLException;
  *
  * 事务管理器类：负责手动事务的开启、提交、回滚
  */
-@Component
+@ExtComponent
 public class TransactionManager {
 
-    @Autowired
+    @ExtAutowired
     private ConnectionUtils connectionUtils;
 
-//    public void setConnectionUtils(ConnectionUtils connectionUtils) {
-//        this.connectionUtils = connectionUtils;
-//    }
-
-    private TransactionManager(){
-
-    }
-
-    private static TransactionManager transactionManager = new TransactionManager();
-
-    public static TransactionManager getInstance() {
-        return  transactionManager;
+    public void setConnectionUtils(ConnectionUtils connectionUtils) {
+        this.connectionUtils = connectionUtils;
     }
 
 

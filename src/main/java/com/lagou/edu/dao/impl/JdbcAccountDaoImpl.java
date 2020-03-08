@@ -1,36 +1,31 @@
 package com.lagou.edu.dao.impl;
 
-import com.lagou.edu.dao.AccountDao;
-import com.lagou.edu.pojo.Account;
-import com.lagou.edu.utils.ConnectionUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import com.lagou.edu.annotation.ExtAutowired;
+import com.lagou.edu.annotation.ExtRepository;
+import com.lagou.edu.dao.AccountDao;
+import com.lagou.edu.pojo.Account;
+import com.lagou.edu.utils.ConnectionUtils;
+
 /**
  * @author 应癫
  */
-@Repository("accountDao")
+@ExtRepository
 public class JdbcAccountDaoImpl implements AccountDao {
 
-    @Autowired
+    @ExtAutowired
     private ConnectionUtils connectionUtils;
 
-    public void init() {
-        System.out.println("初始化方法.....");
-    }
-
-    public void destory() {
-        System.out.println("销毁方法......");
+    public void setConnectionUtils(ConnectionUtils connectionUtils) {
+        this.connectionUtils = connectionUtils;
     }
 
     @Override
     public Account queryAccountByCardNo(String cardNo) throws Exception {
         //从连接池获取连接
-        // Connection con = DruidUtils.getInstance().getConnection();
         Connection con = connectionUtils.getCurrentThreadConn();
         String sql = "select * from account where cardNo=?";
         PreparedStatement preparedStatement = con.prepareStatement(sql);
@@ -46,7 +41,6 @@ public class JdbcAccountDaoImpl implements AccountDao {
 
         resultSet.close();
         preparedStatement.close();
-        //con.close();
 
         return account;
     }
@@ -56,7 +50,6 @@ public class JdbcAccountDaoImpl implements AccountDao {
 
         // 从连接池获取连接
         // 改造为：从当前线程当中获取绑定的connection连接
-        //Connection con = DruidUtils.getInstance().getConnection();
         Connection con = connectionUtils.getCurrentThreadConn();
         String sql = "update account set money=? where cardNo=?";
         PreparedStatement preparedStatement = con.prepareStatement(sql);
@@ -65,8 +58,6 @@ public class JdbcAccountDaoImpl implements AccountDao {
         int i = preparedStatement.executeUpdate();
 
         preparedStatement.close();
-        //con.close();
         return i;
     }
-
 }
